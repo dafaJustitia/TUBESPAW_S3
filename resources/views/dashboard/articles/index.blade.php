@@ -24,9 +24,11 @@
         }
 
         .btn-danger-custom:hover {
-            background-color: #dc3545; /* Warna merah saat hover */
+            background-color: #dc3545;
+            /* Warna merah saat hover */
             border-color: #dc3545;
-            color: white; /* Pastikan teks tetap putih */
+            color: white;
+            /* Pastikan teks tetap putih */
         }
 
         .btn-outline-danger-custom {
@@ -144,6 +146,7 @@
                     <th>Deskripsi</th>
                     <th>Link</th>
                     <th>Status</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -158,6 +161,14 @@
                                 <span class="badge badge-outline text-green">Aktif</span>
                             @else
                                 <span class="badge badge-outline text-pink">Tidak Aktif</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($article->image)
+                                <img src="{{ $article->image }}" alt="{{ $article->title }}"
+                                    style="width: 100px; height: auto;">
+                            @else
+                                <span class="text-muted">Tidak ada gambar</span>
                             @endif
                         </td>
                         <td>
@@ -207,6 +218,10 @@
                                 <option value="1">Published</option>
                                 <option value="0">Unpublished</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Gambar</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-danger-custom">Simpan</button>
