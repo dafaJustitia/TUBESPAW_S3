@@ -129,7 +129,9 @@
 
 
 
-            <!--#FEATURED CARD-->
+  <!--
+      - #HEADER
+    -->
 
             <section class="section featured-car" id="featured-product">
                 <div class="container">
