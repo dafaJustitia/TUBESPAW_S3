@@ -90,6 +90,7 @@
     cursor: pointer;
   }
 
+
   .container {
     margin-top: 20px;
   }
@@ -117,14 +118,14 @@
 
   <main>
     <div class="container">
-        <h2 class="h2 section-title">Cari Produk di Domisili Anda</h2>
+        <h2 class="h2 section-title">Cari Produk di Tempat Anda</h2>
         <div class="row">
             <div class="col-md-4">
-                <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+                <div class="sidebar-toggle" onclick="toggleSidebar()">☰☰☰</div>
                 <div class="sidebar" id="sidebar">
                     <form method="GET" action="{{ route('products.search') }}">
                         <div class="mb-3">
-                            <label for="province_id" class="form-label">Provinsi</label>
+                            <label for="province_id" class="form-label"><br>Provinsi</label>
                             <select name="province_id" id="province_id" class="form-control">
                                 <option value="">Pilih Provinsi</option>
                                 @foreach($provinces as $province)
@@ -185,7 +186,7 @@
     </div>
   </main>
 
-  <script src="{{ asset('js/app.js') }}"></script>
+  {{-- <script src="{{ asset('js/app.js') }}"></script>
   <script>
     function toggleSidebar() {
         var sidebar = document.getElementById('sidebar');
@@ -210,7 +211,7 @@
                 });
         }
     });
-  </script>
+  </script> --}}
 </body>
 
 </html>

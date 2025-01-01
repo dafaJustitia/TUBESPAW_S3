@@ -56,9 +56,7 @@
 
 <body>
 
-    <!--
-      - #HEADER
-    -->
+    <!-- #HEADER-->
 
     <header class="header" data-header>
         <div class="container">
@@ -102,9 +100,7 @@
     <main>
         <article>
 
-            <!--
-          - #HERO
-        -->
+            <!-- #HERO-->
 
             <section class="section hero" id="home">
                 <div class="container">
@@ -133,9 +129,7 @@
 
 
 
-            <!--
-          - #FEATURED CAR
-        -->
+            <!--#FEATURED CARD-->
 
             <section class="section featured-car" id="featured-product">
                 <div class="container">
