@@ -241,19 +241,15 @@
         <ul class="footer-list">
 
           <li>
-            <p class="footer-list-title">Company</p>
+            <p class="footer-list-title">Perusahaan</p>
           </li>
 
           <li>
-            <a href="#" class="footer-link">About us</a>
+            <a href="#" class="footer-link">Tentang Kami</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Pricing plans</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">Contacts</a>
+            <a href="#" class="footer-link">Kontak Kami</a>
           </li>
 
         </ul>
@@ -265,11 +261,11 @@
           </li>
 
           <li>
-            <a href="#" class="footer-link">Help center</a>
+            <a href="#" class="footer-link">Pusat Bantuan</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Ask a question</a>
+            <a href="#" class="footer-link">Pertanyaan ? </a>
           </li>
 
           <li>
@@ -285,39 +281,19 @@
         <ul class="footer-list">
 
           <li>
-            <p class="footer-list-title">Neighborhoods in New York</p>
+            <p class="footer-list-title">Regional</p>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Manhattan</a>
+            <a href="#" class="footer-link">Jawa Timur</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Central New York City</a>
+            <a href="#" class="footer-link">Jawa Tengah</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Upper East Side</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">Queens</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">Theater District</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">Midtown</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">SoHo</a>
-          </li>
-
-          <li>
-            <a href="#" class="footer-link">Chelsea</a>
+            <a href="#" class="footer-link">Jawa Barat</a>
           </li>
 
         </ul>
