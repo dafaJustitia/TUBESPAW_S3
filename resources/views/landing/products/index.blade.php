@@ -117,7 +117,7 @@
 
     <main>
         <div class="container">
-            <h2 class="h2 section-title">Cari Produk di Domisili Anda</h2>
+            <h2 class="h2 section-title">Cari Produk di Daerah Domisili Anda</h2>
             <div class="row">
                 <div class="col-md-4">
                     <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
@@ -179,7 +179,7 @@
                             </ul>
                             @if (request()->has('province_id') && request()->has('city_id') && $products->isEmpty())
                                 <div style="margin-top: 50px; margin-bottom: 50px;">
-                                    <p style="text-align: center; font-size: 20px; color: #6c757d;">Obat Tidak Ditemukan
+                                    <p style="text-align: center; font-size: 20px; color: #6c757d;">Obat Yang Anda Cari Tidak Ditemukan
                                     </p>
                                 </div>
                             @endif
