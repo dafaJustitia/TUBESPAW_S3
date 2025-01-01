@@ -162,7 +162,7 @@
                                         <p class="card-text" style="font-size: 14px; color: #6c757d;">
                                             {{ $article->description }}
                                         </p>
-                                        <a href="{{ $article->link }}" class="btn btn-login" target="_blank">Baca
+                                        <a href="{{ route('articles.handleClick', $article) }}" class="btn btn-login" target="_blank">Baca
                                             Selengkapnya</a>
                                     </div>
                                 </div>
