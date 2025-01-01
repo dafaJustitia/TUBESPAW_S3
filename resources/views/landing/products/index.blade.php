@@ -26,16 +26,7 @@
     transition: 0.3s;
   }
 
-  .btn-primary {
-    background-color: brown;
-    color: white;
-    border: 1px solid brown;
-  }
 
-  .btn-primary:hover {
-    background-color: darkbrown;
-    border-color: darkbrown;
-  }
 
   .btn-secondary {
     background-color: transparent;
@@ -138,7 +129,7 @@
                                 <option value="">Pilih Kota</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Cari</button>
+                        <button type="submit" class="btn btn-danger w-100">Cari</button>
                         <a href="{{ route('landing.home.index') }}" class="btn btn-secondary w-100 mt-3">Kembali</a>
                     </form>
                 </div>

@@ -12,6 +12,44 @@
       opacity: 0.8;
       transition: 0.3s;
       cursor: pointer;
+      .badge-outline {
+            border: 1px solid;
+            padding: 0.25em 0.5em;
+            border-radius: 0.25rem;
+        }
+
+        .text-green {
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        .text-pink {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger-custom {
+            background-color: #A52A2A;
+            border-color: #A52A2A;
+            color: white;
+        }
+
+        .btn-danger-custom:hover {
+            background-color: #dc3545; /* Warna merah saat hover */
+            border-color: #dc3545;
+            color: white; /* Pastikan teks tetap putih */
+        }
+
+        .btn-outline-danger-custom {
+            color: #A52A2A;
+            border-color: #A52A2A;
+        }
+
+        .btn-outline-danger-custom:hover {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
     }
   </style>
 @endsection
@@ -44,7 +82,7 @@
         </div>
         <div class="col-auto ms-auto d-print-none">
           <div class="btn-list d-flex">
-            <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+            <a href="#" class="btn btn-danger d-none d-sm-inline-block" data-bs-toggle="modal"
               data-bs-target="#modalAdd" id="btnAdd">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -55,7 +93,7 @@
               </svg>
               Tambah Produk
             </a>
-            <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modalAdd"
+            <a href="#" class="btn btn-danger d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modalAdd"
               aria-label="Tambah Produk">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -83,7 +121,7 @@
               </svg>
             </button>
           </div>
-          <a href="#" class="btn btn-outline-primary btn-icon" data-bs-toggle="modal"
+          <a href="#" class="btn btn-outline-danger btn-icon" data-bs-toggle="modal"
             data-bs-target="#modal-option">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-filter" width="24"
               height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -379,7 +417,7 @@
           </div>
           <div class="modal-footer pt-2" style="border-top: 1px solid #e9ecef;">
             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Tutup</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnFormOption">Cari</button>
+            <button type="button" class="btn btn-" data-bs-dismiss="modal" id="btnFormOption">Cari</button>
           </div>
         </form>
       </div>
@@ -539,7 +577,7 @@
           </div>
           <div class="modal-footer pt-2" style="border-top: 1px solid #e9ecef;">
             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                 stroke-linecap="round" stroke-linejoin="round">

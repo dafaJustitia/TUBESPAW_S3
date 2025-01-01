@@ -141,7 +141,7 @@
               </div>
               <div class="card-footer d-flex">
                 <a href="{{ route('dashboard.products.index') }}" class="btn me-auto">Batal</a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-danger">Simpan</button>
               </div>
           </form>
         </div>

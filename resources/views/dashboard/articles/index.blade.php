@@ -1,4 +1,5 @@
 @extends('dashboard.main')
+
 @section('custom-css')
     <style>
         .badge-outline {
@@ -17,21 +18,25 @@
             border-color: #dc3545;
         }
 
+        /* Button Danger Custom */
         .btn-danger-custom {
-            background-color: #A52A2A;
-            border-color: #A52A2A;
+            background-color: #dc3545; /* Danger color */
+            border-color: #dc3545;
             color: white;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .btn-danger-custom:hover {
-            background-color: #dc3545; /* Warna merah saat hover */
-            border-color: #dc3545;
-            color: white; /* Pastikan teks tetap putih */
+            background-color: #f1a7a2; /* Light red (pudar) color on hover */
+            border-color: #f1a7a2;
+            color: white; /* Keep the text white when hovered */
         }
 
+        /* Button Outline Danger Custom */
         .btn-outline-danger-custom {
-            color: #A52A2A;
-            border-color: #A52A2A;
+            color: #dc3545;
+            border-color: #dc3545;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
         .btn-outline-danger-custom:hover {
@@ -98,7 +103,7 @@
                             </svg>
                         </button>
                     </div>
-                    <a href="#" class="btn btn-outline-primary btn-icon" data-bs-toggle="modal"
+                    <a href="#" class="btn btn-outline-danger btn-icon" data-bs-toggle="modal"
                         data-bs-target="#modal-option">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-filter" width="24"
                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -144,6 +149,7 @@
                     <th>Deskripsi</th>
                     <th>Link</th>
                     <th>Status</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -158,6 +164,14 @@
                                 <span class="badge badge-outline text-green">Aktif</span>
                             @else
                                 <span class="badge badge-outline text-pink">Tidak Aktif</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($article->image)
+                                <img src="{{ $article->image }}" alt="{{ $article->title }}"
+                                    style="width: 100px; height: auto;">
+                            @else
+                                <span class="text-muted">Tidak ada gambar</span>
                             @endif
                         </td>
                         <td>
@@ -207,6 +221,10 @@
                                 <option value="1">Published</option>
                                 <option value="0">Unpublished</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Gambar</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-danger-custom">Simpan</button>

@@ -109,7 +109,7 @@
                             <div class="card-footer">
                                 <div class="d-flex">
                                     <a href="{{ getPreviousUrl(route('dashboard.home.index')) }}" type="button" class="btn me-auto">Kembali</a>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
                                         Simpan
                                     </button>
                                 </div>
