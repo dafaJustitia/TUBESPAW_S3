@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,5 +9,5 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'link', 'is_published', 'clicks','description'];
+    protected $fillable = ['title', 'link', 'is_published', 'clicks', 'description', 'image'];
 }

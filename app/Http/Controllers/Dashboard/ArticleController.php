@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Article;
@@ -12,6 +13,7 @@ class ArticleController extends Controller
         $title = 'Daftar Artikel';
         $allowedParams = ['q', 'sort', 'order'];
         $articles = Article::paginate(10);
+        // dd($articles);
         return view('dashboard.articles.index', compact('articles', 'title', 'allowedParams'));
     }
 
@@ -24,22 +26,38 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'link' => 'required|url',
+            'title' => 'required|string|max:255',
+            'link' => 'required|url|max:255',
             'is_published' => 'required|boolean',
-            "description" => "required",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            'description' => 'required'
         ]);
 
-        Article::create([
+        // Inisialisasi data artikel
+        $articleData = [
             'title' => $request->title,
             'link' => $request->link,
             'is_published' => $request->is_published,
             'description' => $request->description,
+            // 'image' => $request->image
+        ];
 
-        ]);
+        // Jika ada file gambar yang diunggah, simpan gambar dan tambahkan ke data artikel
+        // if ($request->hasFile('image')) {
+        //     $imagePath['image'] = $this->storeImage($request->file('image'), 'articles');
+        //     $articleData['image'] = $imagePath; // Menyimpan path gambar
+        // }
+
+        if ($request->hasFile('image')) {
+            $articleData['image'] = $this->storeImage($request->file('image'), 'articles'); // Assign the string path directly
+        }
+
+        // Simpan data artikel ke database
+        Article::create($articleData);
 
         return redirect()->route('dashboard.articles.index')->with('success', 'Artikel berhasil ditambahkan.');
     }
+
 
     public function edit(Article $article)
     {
@@ -56,7 +74,12 @@ class ArticleController extends Controller
             'description' => 'required',
         ]);
 
-        $data = $request->only(['title', 'link', 'is_published', 'description']);
+        $data = $request->only(['title', 'link', 'is_published', 'description', 'image']);
+
+        if ($request->hasFile('image')) {
+            $this->deleteFile($article->image);
+            $data['image'] = $this->storeImage($request->file('image'), 'articles', true);
+        }
 
         $article->update($data);
 
@@ -75,10 +98,9 @@ class ArticleController extends Controller
         // $article->increment('clicks');
         $title = 'Detail Artikel';
         return view('dashboard.articles.show', compact('article', 'title'));
-
     }
-    
-     public function handleClick(Article $article)
+
+    public function handleClick(Article $article)
     {
         $article->increment('clicks');
         return redirect($article->link);
