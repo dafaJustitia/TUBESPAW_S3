@@ -134,22 +134,22 @@
 
 
             <!--
-          - #FEATURED CAR
+          - #FEATURED CARD
         -->
 
-            <section class="section featured-car" id="featured-product">
+            <section class="section featured-card" id="featured-product">
                 <div class="container">
 
                     <div class="title-wrapper">
                         <h2 class="h2 section-title">Produk Obat Terbaru</h2>
                     </div>
 
-                    <ul class="featured-car-list">
+                    <ul class="featured-card-list">
                         @foreach ($products as $product)
                             <li>
-                                <div class="featured-car-card">
+                                <div class="featured-card-card">
                                     <figure class="card-banner">
-                                        <img src="{{ $product->image ?? asset('img/placeholder.jpeg') }}" alt="mobil"
+                                        <img src="{{ $product->image ?? asset('img/placeholder.jpeg') }}" alt="product"
                                             loading="lazy" width="440" height="300" class="w-100">
                                     </figure>
 
