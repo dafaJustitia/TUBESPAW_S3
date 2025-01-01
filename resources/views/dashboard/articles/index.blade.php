@@ -18,21 +18,21 @@
             border-color: #dc3545;
         }
 
-        /* Button Danger Custom */
+       
         .btn-danger-custom {
-            background-color: #dc3545; /* Danger color */
+            background-color: #dc3545; 
             border-color: #dc3545;
             color: white;
             transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .btn-danger-custom:hover {
-            background-color: #f1a7a2; /* Light red (pudar) color on hover */
+            background-color: #f1a7a2; 
             border-color: #f1a7a2;
-            color: white; /* Keep the text white when hovered */
+            color: white; 
         }
 
-        /* Button Outline Danger Custom */
+       
         .btn-outline-danger-custom {
             color: #dc3545;
             border-color: #dc3545;

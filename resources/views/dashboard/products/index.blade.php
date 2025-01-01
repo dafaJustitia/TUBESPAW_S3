@@ -35,9 +35,9 @@
         }
 
         .btn-danger-custom:hover {
-            background-color: #dc3545; /* Warna merah saat hover */
+            background-color: #dc3545; 
             border-color: #dc3545;
-            color: white; /* Pastikan teks tetap putih */
+            color: white; 
         }
 
         .btn-outline-danger-custom {
