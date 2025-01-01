@@ -120,19 +120,19 @@
         <h2 class="h2 section-title">Cari Produk di Domisili Anda</h2>
         <div class="row">
             <div class="col-md-4">
-                <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+                <div class="sidebar-toggle" onclick="toggleSidebar()">☰☰☰</div>
                 <div class="sidebar" id="sidebar">
                     <form method="GET" action="{{ route('products.search') }}">
                         <div class="mb-3">
-                            <label for="province_id" class="form-label">Provinsi</label>
+                            <label for="province_id" class="form-label"><br>Provinsi</label>
                             <select name="province_id" id="province_id" class="form-control">
-                                <option value="">Pilih Provinsi</option>
+                                <option value=""><br>Pilih Provinsi</option>
                                 @foreach($provinces as $province)
                                     <option value="{{ $province->id }}">{{ $province->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-5">
                             <label for="city_id" class="form-label">Kota</label>
                             <select name="city_id" id="city_id" class="form-control">
                                 <option value="">Pilih Kota</option>
