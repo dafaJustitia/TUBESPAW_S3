@@ -32,7 +32,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::redirect('/', '/dashboard/home');
     Route::resource('articles', ArticleController::class)->except('create');
-    
+
     Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
     Route::put('/change-password', [AuthController::class, 'updatePassword'])->name('auth.update-password');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
