@@ -10,11 +10,6 @@ class HomeController extends Controller
 {
   public function index()
   {
-    $products = DB::table('products')->get();
-
-    // Dump and die to inspect data
-    dd($products);
-
     return view('landing.home.index', [
       'title' => 'Green Loop',
       'products' => Product::orderBy('created_at', 'desc')
