@@ -122,6 +122,7 @@
                                             {{ $product->description }}
                                         </p>
                                         <p class="card-price"><strong>{{ formatRupiah($product->price) }}</strong></p>
+                                        <br>
                                         <a href="{{ route('products.handleClick', $product) }}" class="btn btn-login"
                                             target="_blank">Beli</a>
                                     </div>
@@ -162,6 +163,7 @@
                                         <p class="card-text" style="font-size: 14px; color: #6c757d;">
                                             {{ $article->description }}
                                         </p>
+                                        <br>
                                         <a href="{{ route('articles.handleClick', $article) }}" class="btn btn-login" target="_blank">Baca
                                             Selengkapnya</a>
                                     </div>
