@@ -1,4 +1,5 @@
 @extends('dashboard.main')
+
 @section('custom-css')
     <style>
         .badge-outline {
@@ -17,23 +18,25 @@
             border-color: #dc3545;
         }
 
+       
         .btn-danger-custom {
-            background-color: #A52A2A;
-            border-color: #A52A2A;
+            background-color: #dc3545; 
+            border-color: #dc3545;
             color: white;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .btn-danger-custom:hover {
-            background-color: #dc3545;
-            /* Warna merah saat hover */
-            border-color: #dc3545;
-            color: white;
-            /* Pastikan teks tetap putih */
+            background-color: #f1a7a2; 
+            border-color: #f1a7a2;
+            color: white; 
         }
 
+       
         .btn-outline-danger-custom {
-            color: #A52A2A;
-            border-color: #A52A2A;
+            color: #dc3545;
+            border-color: #dc3545;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
         .btn-outline-danger-custom:hover {
@@ -100,7 +103,7 @@
                             </svg>
                         </button>
                     </div>
-                    <a href="#" class="btn btn-outline-primary btn-icon" data-bs-toggle="modal"
+                    <a href="#" class="btn btn-outline-danger btn-icon" data-bs-toggle="modal"
                         data-bs-target="#modal-option">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-filter" width="24"
                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"

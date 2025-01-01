@@ -48,7 +48,7 @@
             /* Ubah warna latar belakang jika diperlukan */
         }
 
-        .btn-primary {
+        .btn-danger {
             background-color: brown;
             /* Ubah warna latar belakang tombol menjadi coklat */
             border-color: brown;
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                         <div class="form-footer">
-                            <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                            <button type="submit" class="btn btn-danger w-100">Masuk</button>
                         </div>
                     </form>
                 </div>
