@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ArticleController extends Controller
 {
     public function index()
     {
+
         $title = 'Daftar Artikel';
         $allowedParams = ['q', 'sort', 'order'];
         $articles = Article::paginate(10);
         // dd($articles);
+
+        confirmDelete();
+
         return view('dashboard.articles.index', compact('articles', 'title', 'allowedParams'));
     }
 
@@ -55,6 +61,9 @@ class ArticleController extends Controller
         // Simpan data artikel ke database
         Article::create($articleData);
 
+        Alert::success('Added Successfully', 'Artikel Berhasil Ditambahkan.');
+
+
         return redirect()->route('dashboard.articles.index')->with('success', 'Artikel berhasil ditambahkan.');
     }
 
@@ -83,12 +92,15 @@ class ArticleController extends Controller
 
         $article->update($data);
 
+        Alert::success('Changed Successfully', 'Artikel Berhasil Diperbarui.');
+
         return redirect()->route('dashboard.articles.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
+        Alert::success('Deleted Successfully', 'Artikel Berhasil Dihapus.');
 
         return redirect()->route('dashboard.articles.index')->with('success', 'Artikel berhasil dihapus.');
     }
