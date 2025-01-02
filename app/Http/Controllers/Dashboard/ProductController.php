@@ -9,12 +9,15 @@ use App\Models\Product;
 use App\Models\Province;
 use App\Models\City;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 class ProductController extends Controller
 {
     public function index()
 
     {
+        confirmDelete();
+
         return view('dashboard.products.index', [
             'title' => 'Daftar Produk',
             'products' => Product::options(request(Product::$allowedParams))
@@ -43,6 +46,8 @@ class ProductController extends Controller
         }
 
         Product::create($data);
+
+
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan');
     }
 
@@ -68,6 +73,9 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+
+        Alert::success('Changed Successfully', 'Artikel Berhasil Diperbarui.');
+
         return redirect($request->previous_url ?? route('dashboard.products.index'))->with('success', 'Produk berhasil diubah');
     }
 
@@ -77,6 +85,9 @@ class ProductController extends Controller
             $this->deleteFile($product->image);
         }
         $product->delete();
+
+        Alert::success('Deleted Successfully', 'Artikel Berhasil Dihapus.');
+
         return redirect()->back()->with('success', 'Produk berhasil dihapus');
     }
     public function handleClick(Product $product)
