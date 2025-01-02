@@ -41,8 +41,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboar
 
     Route::get('/home', [HomeController::class, 'index'])->name('home.index');
     Route::resource('products', ProductController::class)->except('create');
-     Route::resource('regions', RegionController::class);
-     Route::resource('regions', RegionController::class)->except(['show']);
+    Route::resource('regions', RegionController::class);
+    Route::resource('regions', RegionController::class)->except(['show']);
 });
 
 Route::get('/products/{product}/click', [ProductController::class, 'handleClick'])->name('products.handleClick');

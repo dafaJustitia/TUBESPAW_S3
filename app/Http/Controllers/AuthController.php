@@ -8,6 +8,8 @@ use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class AuthController extends Controller {
     public function index() {
@@ -31,7 +33,7 @@ class AuthController extends Controller {
     public function handleGoogleCallback() {
         $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $googleUser->email)->first();
-    
+
         if (!$user) {
             return redirect()
                 ->route('auth.index')
@@ -63,6 +65,8 @@ class AuthController extends Controller {
 
         $user->password = bcrypt($request->new_password);
         $user->save();
+
+        Alert::success('Changed Successfully', 'Kata Sandi Berhasil Diperbarui.');
 
         return redirect()->back()->with('success', 'Kata sandi berhasil diperbarui');
     }

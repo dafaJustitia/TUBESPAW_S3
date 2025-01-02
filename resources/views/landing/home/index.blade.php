@@ -46,6 +46,8 @@
             gap: 2rem;
             align-items: center;
         }
+
+
     </style>
 </head>
 
@@ -182,7 +184,7 @@
     </main>
 
     <!--
-      - #FOOTER
+    - #FOOTER
     -->
 
     <footer class="footer">
@@ -318,3 +320,6 @@
 </body>
 
 </html>
+
+
+
