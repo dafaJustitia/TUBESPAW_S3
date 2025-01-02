@@ -93,7 +93,6 @@
                             <a href="https://wa.me/6281331419120" class="btn btn-login" target="_blank"
                                 style="width: 40%;">Contact Kami</a>
                         </div>
-
                         <a href="#" class="logo">
                             <img src="{{ asset('img/tampilanobat.png') }}" alt="logo" style="width: 100%;">
                         </a>
