@@ -24,6 +24,7 @@
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
     {{-- Page Header --}}
     <div class="page-header d-print-none mt-3">
         <div class="container-xl">
@@ -120,5 +121,6 @@
                 reader.readAsDataURL(this.files[0]);
             }
         });
+
     </script>
 @endsection

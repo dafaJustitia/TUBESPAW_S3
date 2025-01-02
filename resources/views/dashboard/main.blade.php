@@ -81,7 +81,7 @@
     document.addEventListener('DOMContentLoaded', changeDateTime);
     setInterval(changeDateTime, 1000);
 
-    function toastr(status = 'success', title = 'Toast Title', text = 'Toast Text') {
+    function toastr(status = 'Success', title = 'Toast Title', text = 'Toast Text') {
       new Notify({
         status: status,
         title: title,
