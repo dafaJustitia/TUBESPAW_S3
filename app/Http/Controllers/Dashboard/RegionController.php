@@ -5,12 +5,16 @@ use App\Models\Province;
 use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegionController extends Controller
 {
     public function index()
     {
         $provinces = Province::with('cities')->get();
+
+        confirmDelete();
+
         return view('dashboard.regions.index', [
             'title' => 'Daftar Region',
             'provinces' => $provinces,
@@ -37,6 +41,8 @@ class RegionController extends Controller
         foreach ($request->cities as $cityName) {
             $province->cities()->create(['name' => $cityName]);
         }
+
+        Alert::success('Added Successfully', 'Artikel Berhasil Ditambahkan.');
 
         return redirect()->route('dashboard.regions.index')->with('success', 'Region berhasil ditambahkan.');
     }
@@ -66,6 +72,8 @@ class RegionController extends Controller
             $province->cities()->create(['name' => $cityName]);
         }
 
+        Alert::success('Changed Successfully', 'Region Berhasil Diperbarui.');
+
         return redirect()->route('dashboard.regions.index')->with('success', 'Region berhasil diperbarui.');
     }
 
@@ -74,6 +82,8 @@ class RegionController extends Controller
         $province = Province::findOrFail($id);
         $province->cities()->delete();
         $province->delete();
+
+        Alert::success('Deleted Successfully', 'Artikel Berhasil Dihapus.');
 
         return redirect()->route('dashboard.regions.index')->with('success', 'Region berhasil dihapus.');
     }
