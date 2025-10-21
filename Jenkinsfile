@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo "🔄 Checkout source code dari repo kamu..."
-                git branch: 'main', url: 'https://github.com/Farrell354/komputasi-awan-docker.git'
+                git branch: 'master', url: 'https://github.com/dafaJustitia/TUBESPAW_S3.git'
             }
         }
 
@@ -51,11 +51,11 @@ pipeline {
                 ping 127.0.0.1 -n 20 >nul
 
                 echo ==== CEK KONEKSI KE LARAVEL ====
-                curl -I http://127.0.0.1:8081 || echo "⚠️ Gagal akses Laravel di port 8081"
+                curl -I http://127.0.0.1:8082 || echo "⚠️ Gagal akses Laravel di port 8081"
 
                 echo.
                 echo ==== ISI HALAMAN (HARUSNYA MUNCUL HALAMAN LARAVEL) ====
-                curl http://127.0.0.1:8081 || echo "⚠️ Gagal ambil isi halaman"
+                curl http://127.0.0.1:8082 || echo "⚠️ Gagal ambil isi halaman"
                 echo ===============================
                 '''
             }
