@@ -48,29 +48,29 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    bat """
-                    echo 🔑 Login ke Docker Hub untuk push...
-                    docker login -u %USER% -p %PASS%
+        // stage('Push Docker Image') {
+        //     when {
+        //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+        //     }
+        //     steps {
+        //         withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+        //             bat """
+        //             echo 🔑 Login ke Docker Hub untuk push...
+        //             docker login -u %USER% -p %PASS%
 
-                    echo 📤 Push image versi build ke Docker Hub...
-                    docker push ${env.IMAGE_NAME}:${env.BUILD_NUMBER}
+        //             echo 📤 Push image versi build ke Docker Hub...
+        //             docker push ${env.IMAGE_NAME}:${env.BUILD_NUMBER}
 
-                    echo 🏷️  Tag image sebagai 'latest' dan push ulang...
-                    docker tag ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ${env.IMAGE_NAME}:latest
-                    docker push ${env.IMAGE_NAME}:latest
+        //             echo 🏷️  Tag image sebagai 'latest' dan push ulang...
+        //             docker tag ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ${env.IMAGE_NAME}:latest
+        //             docker push ${env.IMAGE_NAME}:latest
 
-                    echo 🚪 Logout dari Docker Hub...
-                    docker logout
-                    """
-                }
-            }
-        }
+        //             echo 🚪 Logout dari Docker Hub...
+        //             docker logout
+        //             """
+        //         }
+        //     }
+        // }
 
         stage('Verify Image') {
             steps {
