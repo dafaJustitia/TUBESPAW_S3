@@ -1,79 +1,73 @@
 pipeline {
-    // Menentukan bahwa pipeline ini bisa berjalan di agent Jenkins manapun
     agent any
 
-    // Mendefinisikan variabel yang akan digunakan di seluruh pipeline
     environment {
-        // Anda bisa mengganti nama image ini sesuai keinginan
-        DOCKER_IMAGE_NAME = "dafa-justitia/laravel-app"
-        // Menambahkan tag unik berdasarkan nomor build Jenkins
-        DOCKER_IMAGE_TAG = "build-${env.BUILD_NUMBER}"
+        IMAGE_NAME = "laravel-app"
+        CONTAINER_NAME = "laravel_app"
     }
 
     stages {
-        // Tahap 1: Mengambil kode dari Git
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                echo '🔄 Mengambil source code dari repositori Git...'
-                checkout scm
+                echo "🔄 Checkout source code dari repo kamu..."
+                git branch: 'main', url: 'https://github.com/Farrell354/komputasi-awan-docker.git'
             }
         }
 
-        // Tahap 2: Menampilkan informasi build
-        stage('Build Info') {
+        stage('Build Docker Images') {
             steps {
-                echo '🚀 Memulai proses build pipeline di Windows...'
-                // Menggunakan 'bat' karena environment Anda adalah Windows
-                bat 'docker --version'
+                echo "🏗️  Build Docker images menggunakan docker-compose..."
+                bat 'docker-compose build'
             }
         }
 
-        // Tahap 3: Persiapan Environment Laravel
-        stage('Setup Environment') {
+        stage('Run Docker Containers') {
             steps {
-                echo '📝 Menyalin .env.example ke .env...'
-                // Pastikan file .env.example ada di repo Anda
-                bat 'copy .env.example .env'
+                echo "🚀 Jalankan ulang container Laravel, Nginx, dan MySQL..."
+                bat '''
+                echo ==== HENTIKAN CONTAINER LAMA ====
+                docker stop laravel_app || echo "laravel_app tidak berjalan"
+                docker rm laravel_app || echo "laravel_app sudah dihapus"
+                docker stop nginx_server || echo "nginx_server tidak berjalan"
+                docker rm nginx_server || echo "nginx_server sudah dihapus"
+                docker stop mysql_db || echo "mysql_db tidak berjalan"
+                docker rm mysql_db || echo "mysql_db sudah dihapus"
+
+                echo ==== JALANKAN ULANG DOCKER COMPOSE ====
+                docker-compose down || exit 0
+                docker-compose up -d
+
+                echo ==== CEK CONTAINER YANG AKTIF ====
+                docker ps
+                '''
             }
         }
 
-        // Tahap 4: Membangun Docker Image
-        stage('Build Docker Image') {
+        stage('Verify Container Running') {
             steps {
-                echo "📦 Membangun Docker image dengan nama: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
-                // Perintah ini akan membangun image dari Dockerfile di direktori Anda
-                bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-            }
-        }
+                echo "🔍 Verifikasi Laravel container berjalan dengan benar..."
+                bat '''
+                echo ==== TUNGGU 20 DETIK SUPAYA CONTAINER SIAP ====
+                ping 127.0.0.1 -n 20 >nul
 
-        // Tahap 5: Menjalankan Unit Tests
-        stage('Run Tests') {
-            steps {
-                echo '🔬 Menjalankan PHPUnit tests di dalam container...'
-                // Menjalankan container baru hanya untuk menjalankan tes
-                // Perintah 'php artisan test' akan menjalankan semua tes Anda
-                bat "docker run --rm ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} php artisan test"
+                echo ==== CEK KONEKSI KE LARAVEL ====
+                curl -I http://127.0.0.1:8081 || echo "⚠️ Gagal akses Laravel di port 8081"
+
+                echo.
+                echo ==== ISI HALAMAN (HARUSNYA MUNCUL HALAMAN LARAVEL) ====
+                curl http://127.0.0.1:8081 || echo "⚠️ Gagal ambil isi halaman"
+                echo ===============================
+                '''
             }
         }
     }
 
-    // Blok 'post' akan selalu dijalankan setelah semua tahap selesai
     post {
-        always {
-            echo '🧹 Membersihkan environment...'
-            // Menghapus image yang baru dibuat untuk menghemat ruang
-            // Hapus baris ini jika Anda ingin menyimpan image setelah build
-            bat "docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-
-            // Membersihkan dangling images (image tanpa tag)
-            bat "docker image prune -f"
-            echo '🏁 Pipeline selesai dijalankan.'
-        }
         success {
-            echo '✅ Pipeline berhasil!'
+            echo '✅ Laravel berhasil dijalankan via Docker Compose di port 8081!'
         }
         failure {
-            echo '❌ Pipeline gagal. Silakan periksa log pada tahap yang error.'
+            echo '❌ Build gagal, cek log Jenkins console output.'
         }
     }
 }
