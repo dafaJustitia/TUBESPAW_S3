@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'farrell354/komputasi-awan-docker'   // Nama image kamu di Docker Hub
+        IMAGE_NAME = 'laravel-app'   // Nama image kamu di Docker Hub
         REGISTRY_CREDENTIALS = 'dockerhub-credentials'     // ID credential Docker Hub di Jenkins
     }
 
@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '🔄 Checkout source code dari GitHub kamu...'
-                git branch: 'main', url: 'https://github.com/dafaJustitia/TUBESPAW_S3.git'
+                git branch: 'master', url: 'https://github.com/dafaJustitia/TUBESPAW_S3.git'
             }
         }
 
