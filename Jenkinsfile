@@ -1,96 +1,79 @@
 pipeline {
+    // Menentukan bahwa pipeline ini bisa berjalan di agent Jenkins manapun
     agent any
 
+    // Mendefinisikan variabel yang akan digunakan di seluruh pipeline
     environment {
-        IMAGE_NAME = 'laravel-app'   // Nama image kamu di Docker Hub
-        REGISTRY_CREDENTIALS = 'dockerhub-credentials'     // ID credential Docker Hub di Jenkins
+        // Anda bisa mengganti nama image ini sesuai keinginan
+        DOCKER_IMAGE_NAME = "dafa-justitia/laravel-app"
+        // Menambahkan tag unik berdasarkan nomor build Jenkins
+        DOCKER_IMAGE_TAG = "build-${env.BUILD_NUMBER}"
     }
 
     stages {
-
+        // Tahap 1: Mengambil kode dari Git
         stage('Checkout') {
             steps {
-                echo '🔄 Checkout source code dari GitHub kamu...'
-                git branch: 'master', url: 'https://github.com/dafaJustitia/TUBESPAW_S3.git'
+                echo '🔄 Mengambil source code dari repositori Git...'
+                checkout scm
             }
         }
 
+        // Tahap 2: Menampilkan informasi build
         stage('Build Info') {
             steps {
-                bat 'echo 🚀 Mulai proses build pipeline (Windows Host + Docker Only)'
+                echo '🚀 Memulai proses build pipeline di Windows...'
+                // Menggunakan 'bat' karena environment Anda adalah Windows
                 bat 'docker --version'
             }
         }
 
+        // Tahap 3: Persiapan Environment Laravel
+        stage('Setup Environment') {
+            steps {
+                echo '📝 Menyalin .env.example ke .env...'
+                // Pastikan file .env.example ada di repo Anda
+                bat 'copy .env.example .env'
+            }
+        }
+
+        // Tahap 4: Membangun Docker Image
         stage('Build Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    bat """
-                    echo 🔑 Login ke Docker Hub...
-                    docker login -u %USER% -p %PASS%
-
-                    echo 🏗️  Membuat image Docker dari Dockerfile...
-                    docker build -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} .
-
-                    echo 🚪 Logout dari Docker Hub...
-                    docker logout
-                    """
-                }
+                echo "📦 Membangun Docker image dengan nama: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
+                // Perintah ini akan membangun image dari Dockerfile di direktori Anda
+                bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
             }
         }
 
-        stage('Run Unit Tests (Pytest)') {
+        // Tahap 5: Menjalankan Unit Tests
+        stage('Run Tests') {
             steps {
-                echo '🧪 Menjalankan unit test di dalam container...'
-                bat """
-                docker run --rm ${env.IMAGE_NAME}:${env.BUILD_NUMBER} pytest -q || exit /b 1
-                """
-            }
-        }
-
-        // stage('Push Docker Image') {
-        //     when {
-        //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-        //     }
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-        //             bat """
-        //             echo 🔑 Login ke Docker Hub untuk push...
-        //             docker login -u %USER% -p %PASS%
-
-        //             echo 📤 Push image versi build ke Docker Hub...
-        //             docker push ${env.IMAGE_NAME}:${env.BUILD_NUMBER}
-
-        //             echo 🏷️  Tag image sebagai 'latest' dan push ulang...
-        //             docker tag ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ${env.IMAGE_NAME}:latest
-        //             docker push ${env.IMAGE_NAME}:latest
-
-        //             echo 🚪 Logout dari Docker Hub...
-        //             docker logout
-        //             """
-        //         }
-        //     }
-        // }
-
-        stage('Verify Image') {
-            steps {
-                bat """
-                echo 🧾 Menampilkan daftar image yang ada di host...
-                docker images
-                """
+                echo '🔬 Menjalankan PHPUnit tests di dalam container...'
+                // Menjalankan container baru hanya untuk menjalankan tes
+                // Perintah 'php artisan test' akan menjalankan semua tes Anda
+                bat "docker run --rm ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} php artisan test"
             }
         }
     }
 
+    // Blok 'post' akan selalu dijalankan setelah semua tahap selesai
     post {
+        always {
+            echo '🧹 Membersihkan environment...'
+            // Menghapus image yang baru dibuat untuk menghemat ruang
+            // Hapus baris ini jika Anda ingin menyimpan image setelah build
+            bat "docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+
+            // Membersihkan dangling images (image tanpa tag)
+            bat "docker image prune -f"
+            echo '🏁 Pipeline selesai dijalankan.'
+        }
         success {
-            echo '✅ Pipeline sukses — image berhasil dibangun, dites, dan di-push ke Docker Hub.'
+            echo '✅ Pipeline berhasil!'
         }
         failure {
-            echo '❌ Pipeline gagal — periksa error pada tahap sebelumnya.'
-        }
-        always {
-            echo '🏁 Pipeline selesai dijalankan.'
+            echo '❌ Pipeline gagal. Silakan periksa log pada tahap yang error.'
         }
     }
 }
