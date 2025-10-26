@@ -1,4 +1,3 @@
-# Hapus baris 'version' karena sudah tidak direkomendasikan
 services:
   # Layanan Aplikasi Laravel (PHP-FPM)
   app:
@@ -13,7 +12,8 @@ services:
       - ./:/var/www
     networks:
       - laravel_net
-    # 'depends_on' dihapus dari sini
+    depends_on: # <-- Tambahkan ini agar app menunggu db siap
+      - db
 
   # Layanan Web Server Nginx
   webserver:
@@ -21,15 +21,38 @@ services:
     container_name: nginx_server
     restart: unless-stopped
     ports:
-      - "8082:80"
+      - "8082:80" # Port 8082 di laptop Anda terhubung ke port 80 Nginx
     volumes:
       - ./:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - laravel_net
-    depends_on: # <-- Pindahkan ke sini
-      - app      # <-- Webserver menunggu app siap
+    depends_on:
+      - app
+
+  # --- SERVICE BARU YANG HARUS DITAMBAHKAN ---
+  # Layanan Database (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ruangobat_paw  # Nama DB yang akan dibuat
+      MYSQL_USER: user_paw          # User yang akan dibuat
+      MYSQL_PASSWORD: password_paw  # Password untuk user itu
+      MYSQL_ROOT_PASSWORD: "root_password_super_aman"
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - laravel_net
+  # ----------------------------------------------
 
 networks:
   laravel_net:
     driver: bridge
+
+# --- VOLUME BARU YANG HARUS DITAMBAHKAN ---
+volumes:
+  db_data: # <-- Volume untuk menyimpan data dari service 'db'
