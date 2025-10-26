@@ -25,20 +25,20 @@ pipeline {
             steps {
                 echo "🚀 Jalankan ulang container Laravel, Nginx, dan MySQL..."
                 bat '''
-                echo ==== HENTIKAN CONTAINER LAMA ====
-                docker stop laravel_app || echo "laravel_app tidak berjalan"
-                docker rm laravel_app || echo "laravel_app sudah dihapus"
-                docker stop nginx_server || echo "nginx_server tidak berjalan"
-                docker rm nginx_server || echo "nginx_server sudah dihapus"
-                docker stop mysql_db || echo "mysql_db tidak berjalan"
-                docker rm mysql_db || echo "mysql_db sudah dihapus"
+                    echo ==== HENTIKAN CONTAINER LAMA ====
+                    docker stop laravel_app || echo "laravel_app tidak berjalan"
+                    docker rm laravel_app || echo "laravel_app sudah dihapus"
+                    docker stop nginx_server || echo "nginx_server tidak berjalan"
+                    docker rm nginx_server || echo "nginx_server sudah dihapus"
+                    docker stop mysql_db || echo "mysql_db tidak berjalan"
+                    docker rm mysql_db || echo "mysql_db sudah dihapus"
 
-                echo ==== JALANKAN ULANG DOCKER COMPOSE ====
-                docker-compose down || exit 0
-                docker-compose up -d
+                    echo ==== JALANKAN ULANG DOCKER COMPOSE ====
+                    docker-compose down --volumes || exit 0
+                    docker-compose up -d
 
-                echo ==== CEK CONTAINER YANG AKTIF ====
-                docker ps
+                    echo ==== CEK CONTAINER YANG AKTIF ====
+                    docker ps
                 '''
             }
         }
@@ -47,16 +47,29 @@ pipeline {
             steps {
                 echo "🔍 Verifikasi Laravel container berjalan dengan benar..."
                 bat '''
-                echo ==== TUNGGU 20 DETIK SUPAYA CONTAINER SIAP ====
-                ping 127.0.0.1 -n 20 >nul
+                    echo ==== TUNGGU 20 DETIK SUPAYA CONTAINER SIAP ====
+                    ping 127.0.0.1 -n 20 >nul
 
-                echo ==== CEK KONEKSI KE LARAVEL ====
-                curl -I http://127.0.0.1:8082 || echo "⚠️ Gagal akses Laravel di port 8081"
+                    echo ==== MEMPERSIAPKAN DATABASE (MIGRATE & SEED) ====
 
-                echo.
-                echo ==== ISI HALAMAN (HARUSNYA MUNCUL HALAMAN LARAVEL) ====
-                curl http://127.0.0.1:8082 || echo "⚠️ Gagal ambil isi halaman"
-                echo ===============================
+                    echo === 1. Buat Cache Konfigurasi ===
+                    docker-compose exec app php artisan config:cache
+
+                    echo === 2. Jalankan Migrasi ===
+                    docker-compose exec app php artisan migrate --force
+
+                    echo === 3. Jalankan Seeder ===
+                    docker-compose exec app php artisan db:seed --force
+
+                    echo ==== SELESAI. LANJUTKAN VERIFIKASI ====
+
+                    echo ==== CEK KONEKSI KE LARAVEL ====
+                    curl -I http://127.0.0.1:8082 || echo "⚠️ Gagal akses Laravel di port 8082"
+
+                    echo.
+                    echo ==== ISI HALAMAN (HARUSNYA MUNCUL HALAMAN LARAVEL) ====
+                    curl http://127.0.0.1:8082 || echo "⚠️ Gagal ambil isi halaman"
+                    echo ===============================
                 '''
             }
         }
@@ -64,7 +77,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Laravel berhasil dijalankan via Docker Compose di port 8081!'
+            echo '✅ Laravel berhasil dijalankan via Docker Compose di port 8082!'
         }
         failure {
             echo '❌ Build gagal, cek log Jenkins console output.'
